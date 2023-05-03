@@ -8,6 +8,8 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/style/style.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+
 </head>
 
 <body>
@@ -16,7 +18,7 @@
         <div class="row">
             <div class="col-md-6 col-lg-6 col-xl-5 mx-auto">
                 <div class="row justify-content-md-center">
-                    <div v-for="card in cards" class="col-auto mb-3 flip-container"
+                    <div v-for="card in memoryCards" class="col-auto mb-3 flip-container"
                         :class="{ 'flipped': card.isFlipped }" @click="flipCard(card)">
                         <div class="memorycard">
                             <div class="front border rounded shadow"><img width="100" height="150"
@@ -76,6 +78,7 @@
 
                     },
                 ],
+                memoryCards: [],
             },
 
             created() {
@@ -83,6 +86,9 @@
                 this.cards.forEach((card) => {
                     Vue.set(card, 'isFlipped', false)
                 });
+
+                //metodo libreria lodash, con shuflle mescola elemtni degli array e concatena due copie dell'array cards e cloneDeep clona gli oggetti all'interno dell'array, in modo da non manipolare gli oggetti originali.
+                this.memoryCards = _.shuffle(this.memoryCards.concat(_.cloneDeep(this.cards), _.cloneDeep(this.cards)));
             },
 
             methods: {
