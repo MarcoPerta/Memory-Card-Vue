@@ -78,13 +78,17 @@
 
                     },
                 ],
+                //array con coppia di carte
                 memoryCards: [],
+                //array con carte girate
+                flippedCards: [],
             },
 
             created() {
                 //per ogni carta imposto variabile classe per girare le carte
                 this.cards.forEach((card) => {
-                    Vue.set(card, 'isFlipped', false)
+                    Vue.set(card, 'isFlipped', false);
+                    Vue.set(card, 'isMatched', false);
                 });
 
                 //metodo libreria lodash, con shuflle mescola elemtni degli array e concatena due copie dell'array cards e cloneDeep clona gli oggetti all'interno dell'array, in modo da non manipolare gli oggetti originali.
@@ -95,7 +99,22 @@
                 // se clicchi sulla carta diventa true e si gira la carta 
                 flipCard(card) {
                     card.isFlipped = true;
-                }
+
+                    if (this.flippedCards.length < 2)
+                        this.flippedCards.push(card);
+                    if (this.flippedCards.length === 2)
+                        this._match(card);
+                },
+
+                _match(card) {
+
+                    if (this.flippedCards[0].name === this.flippedCards[1].name)
+                        this.flippedCards.forEach(card => card.isMatched = true);
+                    else
+                        this.flippedCards.forEach(card => card.isFlipped = false);
+
+                    this.flippedCards = [];
+                },
             }
         });
     </script>
