@@ -19,7 +19,7 @@
             <div class="col-md-6 col-lg-6 col-xl-5 mx-auto">
                 <div class="row justify-content-md-center">
                     <div v-for="card in memoryCards" class="col-auto mb-3 flip-container"
-                        :class="{ 'flipped': card.isFlipped }" @click="flipCard(card)">
+                        :class="{ 'flipped': card.isFlipped, 'matched' : card.isMatched }" @click="flipCard(card)">
                         <div class="memorycard">
                             <div class="front border rounded shadow"><img width="100" height="150"
                                     src="/assets/images/pattern3.jpeg"></div>
@@ -27,6 +27,14 @@
                                     :src="'/assets/images/'+card.img"></div>
                         </div>
                     </div>
+                </div>
+                <div class="d-flex flex-row justify-content-center py-3">
+                    <div class="turns p-3"><span class="btn btn-info">Turns : <span class="badge"
+                                :class="finish ? 'badge-success' : 'badge-light'">{{turns}}</span> </span></div>
+                    <div class="totalTime p-3"><span class="btn btn-info">Total Time : <span class="badge"
+                                :class="finish ? 'badge-success' : 'badge-light'">{{min}} : {{sec}}</span></span></div>
+                    <div class="totalTime p-3"><button class="btn btn-info" @click="reset"
+                                :disabled="!start">Restart</button></div>            
                 </div>
             </div>
         </div>
@@ -42,82 +50,8 @@
     <!-- Vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-    <script>
-        let app = new Vue({
-            el: '#app',
-            data: {
-                cards: [
-                    {
-                        name: 'Apple',
-                        img: 'apple.gif',
-
-                    },
-                    {
-                        name: 'Banana',
-                        img: 'banana.gif',
-
-                    },
-                    {
-                        name: 'Orange',
-                        img: 'orange.jpg',
-
-                    },
-                    {
-                        name: 'Pineapple',
-                        img: 'pineapple.png',
-
-                    },
-                    {
-                        name: 'Strawberry',
-                        img: 'strawberry.png',
-
-                    },
-                    {
-                        name: 'watermelon',
-                        img: 'watermelon.jpg',
-
-                    },
-                ],
-                //array con coppia di carte
-                memoryCards: [],
-                //array con carte girate
-                flippedCards: [],
-            },
-
-            created() {
-                //per ogni carta imposto variabile classe per girare le carte
-                this.cards.forEach((card) => {
-                    Vue.set(card, 'isFlipped', false);
-                    Vue.set(card, 'isMatched', false);
-                });
-
-                //metodo libreria lodash, con shuflle mescola elemtni degli array e concatena due copie dell'array cards e cloneDeep clona gli oggetti all'interno dell'array, in modo da non manipolare gli oggetti originali.
-                this.memoryCards = _.shuffle(this.memoryCards.concat(_.cloneDeep(this.cards), _.cloneDeep(this.cards)));
-            },
-
-            methods: {
-                // se clicchi sulla carta diventa true e si gira la carta 
-                flipCard(card) {
-                    card.isFlipped = true;
-
-                    if (this.flippedCards.length < 2)
-                        this.flippedCards.push(card);
-                    if (this.flippedCards.length === 2)
-                        this._match(card);
-                },
-
-                _match(card) {
-
-                    if (this.flippedCards[0].name === this.flippedCards[1].name)
-                        this.flippedCards.forEach(card => card.isMatched = true);
-                    else
-                        this.flippedCards.forEach(card => card.isFlipped = false);
-
-                    this.flippedCards = [];
-                },
-            }
-        });
-    </script>
+    <!-- Mio script -->
+    <script src="./main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
