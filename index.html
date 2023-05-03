@@ -1,22 +1,28 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Card Game</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/style/style.css">
 
 </head>
+
 <body>
-    
+
     <div id="app">
         <div class="row">
             <div class="col-md-6 col-lg-6 col-xl-5 mx-auto">
                 <div class="row justify-content-md-center">
-                    <div v-for="card in cards" class="col-auto mb-3 flip-container">
+                    <div v-for="card in cards" class="col-auto mb-3 flip-container"
+                        :class="{ 'flipped': card.isFlipped }" @click="flipCard(card)">
                         <div class="memorycard">
-                            <div class="front border rounded shadow"><img width="100" height="150" src="/assets/images/pattern3.jpeg"></div>
-                            <div class="back rounded border"><img width="100" height="150" :src="'/assets/images/'+card.img"></div>
+                            <div class="front border rounded shadow"><img width="100" height="150"
+                                    src="/assets/images/pattern3.jpeg"></div>
+                            <div class="back rounded border"><img width="100" height="150"
+                                    :src="'/assets/images/'+card.img"></div>
                         </div>
                     </div>
                 </div>
@@ -36,44 +42,61 @@
 
     <script>
         let app = new Vue({
-        el: '#app',
-        data:{
+            el: '#app',
+            data: {
                 cards: [
                     {
                         name: 'Apple',
                         img: 'apple.gif',
-    
+
                     },
                     {
                         name: 'Banana',
                         img: 'banana.gif',
-     
+
                     },
                     {
                         name: 'Orange',
                         img: 'orange.jpg',
-    
+
                     },
                     {
                         name: 'Pineapple',
                         img: 'pineapple.png',
-    
+
                     },
                     {
                         name: 'Strawberry',
                         img: 'strawberry.png',
-    
+
                     },
                     {
                         name: 'watermelon',
                         img: 'watermelon.jpg',
-    
+
                     },
                 ],
-        },
-    });
+            },
+
+            created() {
+                //per ogni carta imposto variabile classe per girare le carte
+                this.cards.forEach((card) => {
+                    Vue.set(card, 'isFlipped', false)
+                });
+            },
+
+            methods: {
+                // se clicchi sulla carta diventa true e si gira la carta 
+                flipCard(card) {
+                    card.isFlipped = true;
+                }
+            }
+        });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
